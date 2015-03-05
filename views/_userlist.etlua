@@ -1,0 +1,14 @@
+<div id="base">
+<% render("views._navi") %>
+  <div class="main">
+    <h1>All Users</h1>
+    <div class="user-list">
+<ul>
+<% for _, user in pairs(users) do -%>
+  <li><a href="/u/<%= user.username %>"><%= user.username %></a></li>
+<% end -%>
+</ul>
+<%- bottom_raw or "" %>
+    </div>
+  </div>
+</div>

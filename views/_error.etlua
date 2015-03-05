@@ -1,0 +1,9 @@
+<div id="base">
+<% render("views._navi") %>
+  <div class="main">
+    <h1>Error: <%= status_code %></a></h1>
+    <div class="post">
+<%- preface or '' %>
+    </div>
+  </div>
+</div>

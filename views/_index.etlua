@@ -1,0 +1,9 @@
+<div id="base">
+<% render("views._navi") %>
+  <div class="main">
+    <h1>wheee!</h1>
+    <div class="post">
+<%- bottom_raw or "" %>
+    </div>
+  </div>
+</div>

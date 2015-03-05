@@ -1,0 +1,17 @@
+<div id="base">
+<% render("views._navi") %>
+  <div class="main">
+    <h1>All Pages</h1>
+    <div class="page-list">
+<ul>
+<% for _, page in pairs(pages) do -%>
+  <li><a href="/w/<%= page.name %>"><%= page.name %></a> (Revision <%= page.rev %>)</li>
+<% end -%>
+</ul>
+<p>
+<a href="<%= url_for("page_new") %>">Create New Page</a>
+</p>
+<%- bottom_raw or "" %>
+    </div>
+  </div>
+</div>

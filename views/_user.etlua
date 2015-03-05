@@ -1,0 +1,35 @@
+<div id="base">
+<% render("views._navi") %>
+  <div class="main">
+    <h1>Profile: <%= user.username %></h1>
+    <div class="post">
+
+      <div class="userinfo">
+<img src="/static/application-certificate.png" width="16" height="16" alt="Member since" /> <%= user.created_at %><br>
+<img src="/static/internet-mail.png" width="16" height="16" alt="E-Mail" /> <%= user.email_hidden %><br>
+<% if user.url then -%>
+<img src="/static/internet-web-browser.png" width="16" height="16" alt="URL" /> <a href="<%= user.url %>"><%= user.url %></a><br>
+<% end -%>
+<p>
+<%- user.body_html or "" %>
+</p>
+      </div>
+<% if session.current_user and session.current_user.username == user.username then -%>
+      <div class="usermeta">
+        (<a href="<%= url_for("user_edit") %>">edit your profile</a>)
+      </div>
+<% end -%>
+
+      <div class="edit-list">
+<h3>Edits by this user:</h3>
+<ul>
+<% for _, page in pairs(pages) do -%>
+  <li><a href="/w/<%= page.name %>"><%= page.name %></a> (Rev <%= page.rev %> @ <%= page.created_at %>)</li>
+<% end -%>
+</ul>
+<%- bottom_raw or "" %>
+      </div>
+
+    </div>
+  </div>
+</div>

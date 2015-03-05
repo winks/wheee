@@ -1,0 +1,16 @@
+<ul class="navi">
+<% if session.current_user then -%>
+  <li class="intro">Hi, <%= session.current_user.username %>!</li>
+<% else -%>
+  <li class="intro">Welcome!</li>
+<% end -%>
+  <li>/ <a href="/">start</a></li>
+  <li>/ <a href="/w">pages</a></li>
+  <li>/ <a href="/u">users</a></li>
+<% if session.current_user then -%>
+  <li>/ <a href="/u/<%= session.current_user.username %>">your profile</a></li>
+  <li>/ <a href="/m/logout">logout</a></li>
+<% else -%>
+  <li>/ <a href="/m/login">login</a></li>
+<% end -%>
+</ul>

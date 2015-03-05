@@ -1,0 +1,69 @@
+body {
+    font-family: Open Sans, Verdana, Arial, sans-serif;
+    font-size: 14px;
+    background-color: #f3f3f3;
+}
+#base {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.main {
+    background-color: #fff;
+    width: 600px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-bottom: 1px solid #999;
+    min-height: 200px;
+}
+.userinfo {
+    padding: 10px;
+    background-color: #ddd;
+}
+.userinfo img {
+    margin-bottom: -3px;
+}
+.postmeta {
+    text-align: right;
+    display: block;
+    float: right;
+}
+.usermeta {
+    text-align: right;
+    display: block;
+    float: right;
+}
+.main > h1 {
+    font-size: 18px;
+    text-align: right;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+a {
+    color: #f60;
+}
+.navi {
+    text-align: right;
+}
+.navi li {
+    display: inline;
+}
+h1 {
+    text-align: left;
+}
+label {
+    display: block;
+    float: left;
+    width: 150px;
+}
+label:after {
+    content: ": "
+}
+textarea {
+    width: 100%;
+    height: 400px;
+}
+textarea.user-crud {
+    width: 400px;
+    height: 200px;
+}

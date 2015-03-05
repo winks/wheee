@@ -1,0 +1,24 @@
+<div id="base">
+<% render("views._navi") %>
+  <div class="main">
+    <h1><%= crud.status %><%= page.name %><%= crud.status2 %></h1>
+    <div class="post">
+
+<form action="<%= crud.url %>" method="post" novalidate="novalidate">
+
+  <p>
+  <textarea autofocus="autofocus" id="page_body" name="page[body]" rows="3"><%= page.body or "" %></textarea>
+  </p>
+
+  <p>
+  <input name="page[name]" id="page_name" type="hidden" value="<%= page.name %>" />
+  <input name="page[rev]" id="page_rev" type="hidden" value="<%= page.rev %>" />
+  <input name="commit" type="submit" value="<%= crud.submit %>" />
+  </p>
+
+</form>
+
+<%- bottom_raw or "" %>
+    </div>
+  </div>
+</div>

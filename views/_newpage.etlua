@@ -1,0 +1,23 @@
+<div id="base">
+<% render("views._navi") %>
+  <div class="main">
+    <h1>Create New Page</h1>
+    <div class="post">
+
+<form action="/m/new" method="get" novalidate="novalidate">
+
+  <p>
+  <label class="required control-label" for="page">Name</label>
+  <input autofocus="autofocus" class="required" id="page" name="page" type="text" />
+  </p>
+
+  <p>
+  <input name="commit" type="submit" value="Proceed" />
+  </p>
+
+</form>
+
+<%- bottom_raw or "" %>
+    </div>
+  </div>
+</div>
