@@ -3,17 +3,14 @@ local wheee = {}
 local util = require("lapis.util")
 local bcrypt = require("bcrypt")
 
---local lunamark  = require("lunamark")
---local md_opts   = {}
---local md_writer = lunamark.writer.html.new(md_opts)
---local md_parse  = lunamark.reader.markdown.new(md_writer, md_opts)
-
-require("markdown")
+local lunamark  = require("lunamark")
+local md_opts   = {}
+local md_writer = lunamark.writer.html.new(md_opts)
+local md_parse  = lunamark.reader.markdown.new(md_writer, md_opts)
 
 
 function wheee.md_parse(s)
-    --return md_parse(s or "")
-    return markdown(s or "")
+    return md_parse(s or "")
 end
 
 function wheee.login(self, user, pass)
