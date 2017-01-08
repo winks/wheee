@@ -4,7 +4,7 @@
     <h1>Create New Page</h1>
     <div class="post">
 
-<form action="/m/new" method="get" novalidate="novalidate">
+<form action="<%= url_for('page_new') %>" method="get" novalidate="novalidate">
 
   <p>
   <label class="required control-label" for="page">Name</label>

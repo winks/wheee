@@ -53,11 +53,11 @@ function wheee.clean_page(page)
     return t
 end
 
-function wheee.error(self, code, msg)
+function wheee.error(self, code, message, template)
     self.status_code = code
-    self.preface = msg
+    self.preface = message
 
-    return { render = '_error' }
+    return { render = template or '_error' }
 end
 
 function wheee.index(self, msg)
@@ -100,12 +100,13 @@ end
 
 function wheee.pages_filter_acl(pages, acls, revisions)
     local result = {}
-    for key, page in pairs(pages) do
+    for _, page in pairs(pages) do
         page = wheee.page_filter_acl(page, acls, revisions)
         if page then
             result[#result+1] = page
         end
     end
+
     return result
 end
 
@@ -113,24 +114,20 @@ function wheee.page_filter_acl(page, acls, revisions)
     local separator = ':'
     local acl_match = nil
     local parts_match = {}
-    local dbg = {}
 
     for _, acl in pairs(acls) do
         local parts = wheee.helpers.split(acl.pattern, separator)
-        local x = page.name .. ':' .. #parts .. ': '
         if page.name:match('^' .. acl.pattern) then
             if not acl_match or #parts > #parts_match then
                 acl_match = acl
                 parts_match = parts
-                dbg[#dbg+1] = '[' .. acl.pattern .. '] id:' .. acl.actor .. ' mode:' .. acl.mode
             end
         end
     end
 
-    if acl_match.mode < 1 then
+    if not acl_match or acl_match.mode < 1 then
         page = nil
     else
-        page.x = table.concat(dbg, '|')
         page.acl = acl_match
     end
 

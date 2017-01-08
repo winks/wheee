@@ -16,7 +16,7 @@
       </div>
 <% if wheee.helpers.is_logged_in(session) and wheee.helpers.is_same_user(session, user.username) then -%>
       <div class="usermeta">
-        (<a href="<%= url_for("user_edit") %>">edit your profile</a>)
+        (<a href="<%= url_for('user_edit') %>">edit your profile</a>)
       </div>
 <% end -%>
 
@@ -24,7 +24,7 @@
 <h3>Edits by this user:</h3>
 <ul>
 <% for _, page in pairs(pages) do -%>
-  <li><%= wheee.helpers.show_date(page.created_at) %> <a href="/w/<%= page.name %>"><%= page.name %></a> (Rev <%= page.rev %>)</li>
+  <li><%= wheee.helpers.show_date(page.created_at) %> <a href="<%= url_for('page_show', { page = page.name }) %>"><%= page.name %></a> (Rev <%= page.rev %>)</li>
 <% end -%>
 </ul>
 <%- bottom_raw or "" %>

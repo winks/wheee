@@ -1,7 +1,7 @@
 <div id="base">
 <% render("views._navi") %>
   <div class="main">
-    <h1><%= crud.status %><%= user.username %><%= crud.status2 %></h1>
+    <h1><%= crud.headline %></h1>
     <div class="post">
 
 <form action="<%= crud.url %>" method="post" novalidate="novalidate">

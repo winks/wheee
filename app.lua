@@ -43,7 +43,7 @@ end)
 
 app:get('page_list', '/w', function(self)
     local pages = db.query('SELECT DISTINCT ON (p.name) p.id, p.rev, p.name, p.created_at, p.author AS uid, u.username AS author FROM w_pages AS p, w_users AS u WHERE p.author = u.id ORDER BY p.name ASC, p.rev DESC')
-    local user_acls = Acls:select("WHERE actor = '?' ORDER BY mode DESC, pattern ASC", self.session.current_user.id)
+    local user_acls = Acls:select("WHERE actor = '?' OR actor = '?' ORDER BY mode DESC, pattern ASC", self.session.current_user.id, 0)
 
     if #user_acls > 0 then
         self.pages = wheee.pages_filter_acl(pages, user_acls)
@@ -60,15 +60,15 @@ app:get('user_show', '/u/:user', function(self)
         return wheee.error(self, 404, 'User doesn\'t exist.')
     end
 
-    local pages = Pages:select('WHERE author = ? ORDER BY id DESC', user.id )
-    local user_acls = Acls:select("WHERE actor = '?' ORDER BY mode DESC, pattern ASC", self.session.current_user.id)
-
     self.user = wheee.clean_user(user)
     if format == 'md' then
         return wheee.render_md(self, self.user)
     elseif format == 'json' then
         return wheee.render_json(self, self.user)
     end
+
+    local pages = Pages:select('WHERE author = ? ORDER BY id DESC', user.id )
+    local user_acls = Acls:select("WHERE actor = '?' OR actor = '?' ORDER BY mode DESC, pattern ASC", self.session.current_user.id, 0)
 
     if #user_acls > 0 then
         self.pages = wheee.pages_filter_acl(pages, user_acls, true)
@@ -82,7 +82,7 @@ end)
 app:get('page_show', '/w/:page', function(self)
     local page_name, format = wheee.extract_format(self.params.page)
     local page = Pages:select('WHERE name = ? ORDER BY rev DESC LIMIT 1', page_name)[1]
-    local user_acls = Acls:select("WHERE actor = '?' ORDER BY mode DESC, pattern ASC", self.session.current_user.id)
+    local user_acls = Acls:select("WHERE actor = '?' OR actor = '?' ORDER BY mode DESC, pattern ASC", self.session.current_user.id, 0)
 
     local page_check
     if not page then
@@ -93,19 +93,11 @@ app:get('page_show', '/w/:page', function(self)
     local page_acl = wheee.page_filter_acl(page_check, user_acls)
 
     if not page_acl then
-        local msg = table.concat({
-            'Permission denied.<br>',
-        })
-        return wheee.error(self, 404, msg)
+        return wheee.error(self, 401, 'Permission denied.<br>')
     end
     if not page then
-        local msg = table.concat({
-            'Page doesn\'t exist. <a href="',
-            self:url_for('page_new'),
-            '?page=', p_name,
-            '">Create page named \'', p_name, '\'</a><br>',
-        })
-        return wheee.error(self, 404, msg)
+        self.page = { name = page_name }
+        return wheee.error(self, 404, '', '_page_notfound')
     end
     if format == 'md' then
         return wheee.render_md(self, page_acl)
@@ -178,8 +170,7 @@ app:match('user_edit', '/m/profile', function(self)
 
         self.crud = {
             url = self:url_for('user_edit'),
-            status = 'Edit Profile: ',
-            status2 = '',
+            headline = 'Edit Profile: ' .. user.username,
             submit = 'Submit changes',
         }
         self.user = user
@@ -191,6 +182,13 @@ app:match('page_edit', '/m/edit', function(self)
     if not wheee.helpers.is_logged_in(self.session) then
         return wheee.error(self, 401, 'Not allowed.')
     end
+    local page_name = self.params.page.name or self.params.page
+    local user_acls = Acls:select("WHERE actor = '?' OR actor = '?' ORDER BY mode DESC, pattern ASC", self.session.current_user.id, 0)
+    page_check = wheee.page_filter_acl({ name = page_name, acl = user_acls }, user_acls)
+    if #user_acls < 1 or not wheee.helpers.can_edit(page_check) then
+        return wheee.error(self, 401, 'Not allowed.')
+    end
+
     if 'POST' == ngx.var.request_method then
         local p_author = self.session.current_user.id
         local p_name   = self.params.page.name
@@ -214,8 +212,7 @@ app:match('page_edit', '/m/edit', function(self)
 
         self.crud = {
             url = self:url_for('page_edit'),
-            status = 'Edit Page: ',
-            status2 = ' (Revision ' .. page.rev .. ')',
+            headline = 'Edit Page: '.. page.name .. ' (Revision ' .. page.rev .. ')',
             submit = 'Submit changes',
         }
         self.page = page
@@ -224,7 +221,7 @@ app:match('page_edit', '/m/edit', function(self)
 end)
 
 app:match('page_new', '/m/new', function(self)
-    if not self.session.current_user.id > 0 then
+    if not wheee.helpers.is_logged_in(self.session) then
         return wheee.error(self, 401, 'Not allowed.')
     end
     if 'POST' == ngx.var.request_method then
@@ -249,8 +246,7 @@ app:match('page_new', '/m/new', function(self)
         if not page then
             self.crud = {
                 url = self:url_for('page_new'),
-                status = 'New Page: ',
-                status2 = '',
+                headline = 'New Page: ' .. p_page,
                 submit = 'Create Page',
             }
             self.page = { name = p_page, body = '', rev = 0 }

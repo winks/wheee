@@ -6,9 +6,9 @@
 <%- page.body_html %>
     </div>
       <div class="postmeta">
-      Rev <%= page.rev %> by <a href="/u/<%= author.username %>"><%= author.username %></a>
-<% if session.current_user.id > 0 then -%>
-      &ndash; (<a href="<%= url_for("page_edit") %>?page=<%= page.name %>">edit</a>)
+      Rev <%= page.rev %> by <a href="<%= url_for('user_show', { user = author.username }) %>"><%= author.username %></a>
+<% if wheee.helpers.is_logged_in(session) and wheee.helpers.can_edit(page) then -%>
+      &ndash; (<a href="<%= url_for('page_edit') %>?page=<%= page.name %>">edit</a>)
 <% end -%>
       </div>
 <%- bottom_raw or "" %>

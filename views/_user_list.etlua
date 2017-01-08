@@ -5,7 +5,7 @@
     <div class="user-list">
 <ul>
 <% for _, user in pairs(users) do -%>
-  <li><a href="/u/<%= user.username %>"><%= user.username %></a></li>
+  <li><a href="<%= url_for('user_show', { user = user.username }) %>"><%= user.username %></a></li>
 <% end -%>
 </ul>
 <%- bottom_raw or "" %>

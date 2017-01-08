@@ -1,7 +1,7 @@
 local helpers = {}
 
-local util = require("lapis.util")
-local lunamark  = require("lunamark")
+local util = require('lapis.util')
+local lunamark  = require('lunamark')
 local md_opts   = {}
 local md_writer = lunamark.writer.html.new(md_opts)
 local md_parse  = lunamark.reader.markdown.new(md_writer, md_opts)
@@ -14,8 +14,15 @@ function helpers.is_logged_in(session)
     return session.current_user.id > 0
 end
 
+function helpers.can_edit(page)
+    if not page or not page.acl or not page.acl.mode then
+        return false
+    end
+    return page.acl.mode > 1
+end
+
 function helpers.cloak_mail(s)
-    return s and string.gsub(tostring(s), '[%a%d]', 'x') or ""
+    return s and string.gsub(tostring(s), '[%a%d]', 'x') or ''
 end
 
 --- Split a string using a pattern.
@@ -42,7 +49,7 @@ function helpers.split(str, pat)
 end
 
 function helpers.md_parse(s)
-    return md_parse(s or "")
+    return md_parse(s or '')
 end
 
 function helpers.clean_md(s)
@@ -54,7 +61,7 @@ function helpers.clean_md(s)
 end
 
 function helpers.show_date(s)
-    if not s then return "" end
+    if not s then return '' end
     local m, x = string.match(s, '(%d+-%d+-%d+ %d+:%d+:%d+).(%d+)')
     return m and m or s
 end
