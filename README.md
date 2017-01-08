@@ -7,8 +7,8 @@ A minimal wiki in Lua, made with Lua and
 
 Requirements:
 
-  * [`OpenResty`](http://openresty.org/) (1.11.2, but 1.9.7 also worked)
-  * [`Lapis`](http://leafo.net/lapis/) (1.5.1)
+  * [`OpenResty`](http://openresty.org/) (1.9+)
+  * [`Lapis`](http://leafo.net/lapis/) (1.5)
   * [`bcrypt`](https://github.com/mikejsavage/lua-bcrypt) (2.1-3)
   * either one of;
     * [`markdown.lua`](http://www.frykholm.se/files/markdown.lua) (0.32)

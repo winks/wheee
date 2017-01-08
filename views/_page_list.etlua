@@ -8,12 +8,14 @@
   <li><a href="<%= url_for('page_show', { page = page.name }) %>"><%= page.name %></a> (Rev <%= page.rev %>, by <a href="<%= url_for('user_show', { user = page.author }) %>"><%= page.author %></a> - <%= wheee.helpers.show_date(page.created_at) %>)</li>
 <% end -%>
 </ul>
-<p>
-<% if wheee.helpers.is_logged_in(session) then %>
-<a href="<%= url_for('page_new') %>">Create New Page</a>
-<% end %>
-</p>
 <%- bottom_raw or "" %>
     </div>
+  </div>
+  <div class="meta">
+<% if wheee.helpers.is_logged_in(session) then %>
+    <a href="<%= url_for('page_new') %>">create new page</a>
+<% else %>
+    &nbsp;
+<% end %>
   </div>
 </div>

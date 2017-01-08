@@ -93,7 +93,7 @@ app:get('page_show', '/w/:page', function(self)
     local page_acl = wheee.page_filter_acl(page_check, user_acls)
 
     if not page_acl then
-        return wheee.error(self, 401, 'Permission denied.<br>')
+        return wheee.error(self, 401, 'Permission denied.')
     end
     if not page then
         self.page = { name = page_name }
@@ -250,7 +250,7 @@ app:match('page_new', '/m/new', function(self)
                 submit = 'Create Page',
             }
             self.page = { name = p_page, body = '', rev = 0 }
-            return { render = '_crudpage' }
+            return { render = '_page_crud' }
         else
             return wheee.index(self, 'Page already exists. <a href="' .. self:url_for('page_show', { page = p_page }) .. '">' .. p_page .. '</a>')
         end

@@ -4,7 +4,7 @@
     <h1>Profile: <%= user.username %></h1>
     <div class="post">
 
-      <div class="userinfo">
+      <div class="user-info">
 <img src="/static/application-certificate.png" width="16" height="16" alt="Member since" /> <%= user.created_at %><br>
 <img src="/static/internet-mail.png" width="16" height="16" alt="E-Mail" /> <%= user.email_hidden %><br>
 <% if user.url then -%>
@@ -15,9 +15,9 @@
 </p>
       </div>
 <% if wheee.helpers.is_logged_in(session) and wheee.helpers.is_same_user(session, user.username) then -%>
-      <div class="usermeta">
-        (<a href="<%= url_for('user_edit') %>">edit your profile</a>)
-      </div>
+  <div class="user-edit">
+    <a href="<%= url_for('user_edit') %>">edit your profile</a>
+  </div>
 <% end -%>
 
       <div class="edit-list">
@@ -31,5 +31,12 @@
       </div>
 
     </div>
+  </div>
+  <div class="meta">
+<% if wheee.helpers.is_logged_in(session) and wheee.helpers.is_same_user(session, user.username) then -%>
+    <a href="<%= url_for('user_edit') %>">edit your profile</a>
+<% else -%>
+    &nbsp;
+<% end -%>
   </div>
 </div>

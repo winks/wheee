@@ -4,11 +4,12 @@
     <h1>Error: <%= status_code %></a></h1>
     <div class="post">
 <%- preface or '' %>
-
 Page doesn't exist.
-<% if wheee.helpers.is_logged_in(session) then %>
- <a href="<%= url_for('page_new', {}, { page = page.name }) %>">Create page named '<%= page.name %>'.</a><br>
-<% end %><br>
     </div>
+  </div>
+  <div class="meta">&nbsp;
+<% if wheee.helpers.is_logged_in(session) then %>
+    <a href="<%= url_for('page_new', {}, { page = page.name }) %>">create page named '<%= page.name %>'</a>
+<% end %>
   </div>
 </div>

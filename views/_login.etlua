@@ -31,4 +31,6 @@
 <%- bottom_raw or "" %>
     </div>
   </div>
+  <div class="meta">&nbsp;
+  </div>
 </div>

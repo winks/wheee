@@ -5,12 +5,12 @@
     <div class="post">
 <%- page.body_html %>
     </div>
-      <div class="postmeta">
-      Rev <%= page.rev %> by <a href="<%= url_for('user_show', { user = author.username }) %>"><%= author.username %></a>
-<% if wheee.helpers.is_logged_in(session) and wheee.helpers.can_edit(page) then -%>
-      &ndash; (<a href="<%= url_for('page_edit') %>?page=<%= page.name %>">edit</a>)
-<% end -%>
-      </div>
 <%- bottom_raw or "" %>
+  </div>
+  <div class="meta">
+    Rev <%= page.rev %> by <a href="<%= url_for('user_show', { user = author.username }) %>"><%= author.username %></a> &ndash; <%= wheee.helpers.show_date(page.created_at) %>
+<% if wheee.helpers.is_logged_in(session) and wheee.helpers.can_edit(page) then -%>
+    &ndash; <a href="<%= url_for('page_edit') %>?page=<%= page.name %>">edit this page</a>
+<% end -%>
   </div>
 </div>
