@@ -7,7 +7,7 @@
     </div>
       <div class="postmeta">
       Rev <%= page.rev %> by <a href="/u/<%= author.username %>"><%= author.username %></a>
-<% if session.current_user then -%>
+<% if session.current_user.id > 0 then -%>
       &ndash; (<a href="<%= url_for("page_edit") %>?page=<%= page.name %>">edit</a>)
 <% end -%>
       </div>

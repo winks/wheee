@@ -5,7 +5,7 @@
     <div class="page-list">
 <ul>
 <% for _, page in pairs(pages) do -%>
-  <li><a href="/w/<%= page.name %>"><%= page.name %></a> (Revision <%= page.rev %>)</li>
+  <li><a href="/w/<%= page.name %>"><%= page.name %></a> (Rev <%= page.rev %>, by <a href="<%= url_for('user_show', { user = page.author }) %>"><%= page.author %></a> - <%= wheee.helpers.show_date(page.created_at) %>)</li>
 <% end -%>
 </ul>
 <p>

@@ -1,5 +1,5 @@
 <ul class="navi">
-<% if session.current_user then -%>
+<% if wheee.helpers.is_logged_in(session) then -%>
   <li class="intro">Hi, <%= session.current_user.username %>!</li>
 <% else -%>
   <li class="intro">Welcome!</li>
@@ -7,7 +7,7 @@
   <li>/ <a href="/">start</a></li>
   <li>/ <a href="/w">pages</a></li>
   <li>/ <a href="/u">users</a></li>
-<% if session.current_user then -%>
+<% if wheee.helpers.is_logged_in(session) then -%>
   <li>/ <a href="/u/<%= session.current_user.username %>">your profile</a></li>
   <li>/ <a href="/m/logout">logout</a></li>
 <% else -%>
